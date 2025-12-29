@@ -1,0 +1,2 @@
+"0","arvores$porte <- ifelse(altura_m < 10, 'Pequeno porte', 'Grande porte')"
+"0","head(arvores)"

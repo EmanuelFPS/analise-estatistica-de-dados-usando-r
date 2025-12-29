@@ -1,0 +1,2 @@
+"0","arvores <- readxl::read_excel('dados/arvores.xlsx')"
+"0","head(arvores)"

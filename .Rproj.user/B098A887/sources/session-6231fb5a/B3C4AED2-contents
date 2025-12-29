@@ -1,0 +1,200 @@
+---
+title: "Projeto de análise descritiva"
+---
+
+# Introdução
+Este projeto reúne a resolução dos exercícios do ebook [Software R: Análise estatística de dados utilizando um programa livre](http://www.editorafaith.com.br/ebooks/grat/978-85-68221-44-0.pdf), organizado por Iara Denise Endruweit Battisti e Felipe Micail da Silva Smolski (Editora Faith), com o objetivo de consolidar conhecimentos em análise estatística utilizando a linguagem R.
+
+O ebook aborda desde os fundamentos do R, como operadores, objetos e estruturas de dados, até etapas centrais do processo de análise, incluindo pré-tratamento e manipulação de dados, estatística descritiva e inferencial, testes estatísticos, regressão linear simples e uso do R Markdown. As resoluções priorizam a aplicação prática, a organização do código e a interpretação dos resultados.
+
+# Primeiros passos com R
+
+## Questão 1
+Baixe o arquivo [arvores](https://github.com/smolski/livror/blob/master/arvores.xlsx). Este é um banco de dados com informações cedido pela professora Tatiane Chassot. Abra o arquivo no Rstudio tomando os cuidados necessários (importar no formato correto, prestar atenção nas vírgulas e nomes. . . ). Por meio dos comandos do R, responda as seguintes perguntas, informando o comando utilizado.
+
+```{r}
+arvores <- readxl::read_excel('dados/arvores.xlsx')
+head(arvores)
+
+attach(arvores) # Permite usar *coluna* ao invés de *dados$coluna*
+```
+
+### Parte A
+Qual é a espécie de árvore que possui o maior e menor diâmetro?
+E quais são estes valores de diâmetro?
+
+```{r}
+especie_maior_diametro <- Nomecientifico[diametro_cm == max(diametro_cm)]
+especie_maior_diametro
+
+maior_diametro <- diametro_cm[diametro_cm == max(diametro_cm)]
+maior_diametro
+
+especie_menor_diametro <- Nomecientifico[diametro_cm == min(diametro_cm)]
+especie_menor_diametro
+
+menor_diametro <- diametro_cm[diametro_cm == min(diametro_cm)]
+menor_diametro
+```
+
+### Parte B
+Qual é a altura média, mínima e máxima das árvores?
+
+```{r}
+altura_media <- tapply(altura_m, Nomecientifico, mean)
+altura_media
+
+altura_minima <- tapply(altura_m, Nomecientifico, min)
+altura_minima
+
+altura_maxima <- tapply(altura_m, Nomecientifico, max)
+altura_maxima
+```
+
+### Parte C
+Encontre o diâmetro médio para cada espécie de árvores.
+
+```{r}
+diametro_medio <- tapply(diametro_cm, Nomecientifico, mean)
+diametro_medio
+```
+
+### Parte D
+Com os comandos do R, verifique a quantidade de dados referente as variáveis, bem como o nome referente a cada variável.
+
+```{r}
+nrow(arvores)
+
+names(arvores)
+```
+
+### Parte E
+Renomeie a primeira coluna para “espécie”.
+
+```{r}
+colnames(arvores)[1] <- 'espécie'
+names(arvores)
+```
+
+### Parte F
+Classifique as árvores quanto ao seu porte, em relação à altura, em que:
+Pequeno porte = árvores com altura inferior a 10 metros.
+Grande porte = árvores com altura superior a 10 metros.
+
+```{r}
+arvores$porte <- ifelse(altura_m < 10, 'Pequeno porte', 'Grande porte')
+head(arvores)
+```
+
+```{r}
+detach(arvores)
+```
+
+
+## Questão 2
+Baixe o arquivo [bancodedados11](https://github.com/smolski/livror/blob/master/bancodedados11.xlsx). Este é um banco de dados com
+informações fictícias que serão utilizados a fim de aprendizado. Abra o arquivo
+no Rstudio tomando os cuidados necessários. Por meio dos comandos do R,
+responda as seguintes perguntas, informando o comando utilizado.
+
+```{r}
+bancodedados11 <- readxl::read_excel('dados/bancodedados11.xlsx')
+colnames(bancodedados11)[4] = 'Vendas_mensais'
+head(bancodedados11)
+
+attach(bancodedados11)
+```
+
+### Parte A
+Qual é o vendedor com mais sucesso de vendas? E o vendedor com menor número de vendas? Qual foi o número total de vendas?
+
+```{r}
+vendedor_mais_vendas <- sort(
+  tapply(Vendas_mensais, Vendedor, sum), 
+  decreasing = T)[1]
+vendedor_mais_vendas
+
+vendedor_menos_vendas <- sort(
+  tapply(Vendas_mensais, Vendedor, sum), 
+  decreasing = F)[1]
+vendedor_menos_vendas
+
+sum(Vendas_mensais)
+```
+
+### Parte B
+Supondo que um vendedor tenha ficado de fora dos dados, insira
+suas informações no banco de dados que já possuímos.
+• Vendedor = Silvia; Idade = 48; Setor = 2; N de vendas = 45.
+
+```{r}
+Silvia <- data.frame(Vendedor = 'Silvia',
+                     Idade = 48,
+                     Setor = 2,
+                     Vendas_mensais = 45)
+
+bancodedados11 <- rbind(bancodedados11, Silvia)
+tail(bancodedados11)
+```
+
+### Parte C
+Crie uma nova coluna classificando os vendedores como:
+• vendas < 25 = “Regular” ;
+• 25 > vendas = “Ótimo”
+
+```{r}
+bancodedados11$Classificação <- ifelse(
+  bancodedados11$Vendas_mensais < 25, 
+  'Regular', 'Ótimo')
+head(bancodedados11)
+```
+
+### Parte D
+Renomeie a coluna “vendas mensais” para “vendas diárias”.
+
+```{r}
+colnames(bancodedados11)[4] = 'Vendas diárias'
+names(bancodedados11)
+```
+
+```{r}
+detach(bancodedados11)
+```
+
+# Estatística descritiva
+
+## Questão 1
+
+Carregue a base de dados denominada [arvores](https://github.com/smolski/livror/blob/master/arvores.xlsx).
+
+```{r}
+arvores <- readxl::read_excel('dados/arvores.xlsx')
+head(arvores)
+
+attach(arvores)
+```
+
+### Parte A
+Utilize a função summary para identificar os principais indicadores
+da base de dados. Com a função table encontre a contagem das espécies que
+constam na planilha a partir da variável “Nomecientifico”.
+
+```{r}
+summary(arvores)
+
+table(Nomecientifico)
+```
+
+### Parte B
+Utilizando a função tapply calcule a média do diâmetro por cada
+espécie. Utilizando as funções table e barplot construa um gráfico de barras
+com a quantidade de itens por espécies que constam na base de dados. Não
+esqueça de utilizar o comando horiz = TRUE para melhor visualização.
+
+```{r}
+tapply(diametro_cm, Nomecientifico, mean)
+
+mais_frequentes <- sort(table(Nomecientifico), decreasing = T)
+mais_frequentes <- head(mais_frequentes, 10)
+barplot(mais_frequentes, horiz = T, las = 1)
+```

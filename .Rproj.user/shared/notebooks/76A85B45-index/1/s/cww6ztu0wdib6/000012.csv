@@ -1,0 +1,7 @@
+"0","Silvia <- data.frame(Vendedor = 'Silvia',"
+"0","                     Idade = 48,"
+"0","                     Setor = 2,"
+"0","                     Vendas_mensais = 45)"
+"0",""
+"0","bancodedados11 <- rbind(bancodedados11, Silvia)"
+"0","tail(bancodedados11)"

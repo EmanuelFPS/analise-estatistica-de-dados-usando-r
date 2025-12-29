@@ -1,0 +1,31 @@
+{
+    "id": "B3C4AED2",
+    "path": "~/AOutros estatística/Projetos R/analise-estatistica-de-dados-usando-r/index.qmd",
+    "project_path": "index.qmd",
+    "type": "quarto_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1766780497997.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "58:0",
+        "cursorPosition": "5,125",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1767045177,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1767045177556,
+    "read_only": false,
+    "read_only_alternatives": []
+}
